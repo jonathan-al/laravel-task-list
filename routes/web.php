@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Response;
 
 class Task
 {
@@ -81,9 +82,14 @@ Route::get("/tasks", function () use ($tasks) {
 })->name("tasks.show");
 
 Route::get("/tasks/{id}", function ($id) use ($tasks) {
-    return view("task", [
-        "task"=> $tasks[$id-1]
-    ]);
+  $task = collect($tasks)->firstWhere("id", $id);
+
+  if (!$task) {
+    abort(Response::HTTP_NOT_FOUND);
+  }
+  return view("task", [
+      "task"=> $task
+  ]);
 })->name("tasks.index");
 
 Route::get('/hello', function () {
