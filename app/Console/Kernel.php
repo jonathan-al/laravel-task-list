@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Models\Task;
 
 class Kernel extends ConsoleKernel
 {
@@ -12,7 +13,16 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // $schedule->command('app:delete-task')->hourly();
+        // $schedule->job(new DeleteTaskJob)->everyMinute();
+        // $schedule->command('app:delete-task')->everyMinute();
+
+        /* $schedule->call(function(){
+            info("delete every minute");
+            // Task::orderBy('id', 'desc')->first()->delete();
+        })->everyMinute(); */
+
+        $schedule->command('app:delete-task')->everyMinute();
     }
 
     /**
